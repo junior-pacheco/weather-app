@@ -6,11 +6,11 @@ const WeatherCard = ({ weatherData }) => {
       {weatherData.length > 0 ? (
         <div className="flex flex-col gap-4">
           {weatherData.map((data, index) => (
-            <div key={index} className="p-4 rounded-lg w-full bg-gray-200 shadow-md">
-              <h2 className="text-2xl font-bold text-start">{data.name}, {data.state}, {data.country}</h2>
+            <div key={index} className="p-4 rounded-lg bg-gray-200 text-black shadow-md mb-4">
+              <h2 className="text-2xl font-bold text-blue-500">{data.name}, {data.state}, {data.country}</h2>
               <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                <p><span className="font-bold"></span> {data.lat}</p>,
-                <p><span className="font-bold"></span> {data.lon}</p>
+                <p><span className="font-bold">Latitude:</span> {data.lat}</p>
+                <p><span className="font-bold">Longitude:</span> {data.lon}</p>
               </div>
               {data.weather && (
                 <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-between text-lg items-center p-4 rounded-lg">
@@ -18,6 +18,13 @@ const WeatherCard = ({ weatherData }) => {
                   <p><span className="font-bold">Humidity:</span> {data.weather.main.humidity}%</p>
                   <p><span className="font-bold">Wind Speed:</span> {data.weather.wind.speed} m/s</p>
                   <p><span className="font-bold">Weather:</span> {data.weather.weather[0].description}</p>
+                  {data.weather.weather[0].icon && (
+                    <img
+                      src={`https://openweathermap.org/img/wn/${data.weather.weather[0].icon}.png`}
+                      alt={data.weather.weather[0].description}
+                      className="w-14 h-14"
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -50,7 +57,8 @@ WeatherCard.propTypes = {
         speed: PropTypes.number.isRequired
       }),
       weather: PropTypes.arrayOf(PropTypes.shape({
-        description: PropTypes.string.isRequired
+        description: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired // Añadido para el icono del clima
       })).isRequired
     })
   })).isRequired
